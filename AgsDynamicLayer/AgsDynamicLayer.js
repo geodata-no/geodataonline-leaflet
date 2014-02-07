@@ -1,4 +1,8 @@
-﻿L.AgsDynamicLayer = L.Class.extend({
+﻿//
+// Taken from this blog post: http://blog.davebouwman.com/2011/08/04/leaflet-lean-mean-javascript-maps/
+// And here is original code (modfied to work with norwegian projections
+//
+L.AgsDynamicLayer = L.Class.extend({
     includes: L.Mixin.Events,
 
     options: {
