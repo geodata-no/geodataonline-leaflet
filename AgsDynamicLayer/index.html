@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet - Geodata Online - demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>    
+    <script src="proj4-compressed.js"></script>
+    <script src="proj4leaflet.js"></script>
+    <script src="AgsDynamicLayer.js"></script>
+    
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var token = "XXX"; // Update with your own Geodata Online token
+
+        var crs = new L.Proj.CRS('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs',
+        {
+            resolutions: [21674.7100160867, 10837.3550080434, 5418.67750402168, 2709.33875201084, 1354.66937600542, 677.334688002709,
+                            338.667344001355, 169.333672000677, 84.6668360003387, 42.3334180001693, 21.1667090000847, 10.5833545000423,
+                            5.29167725002117, 2.64583862501058, 1.32291931250529, 0.661459656252646, 0.330729828126323, 0.165364914063161],
+            origin: [-2500000, 9045984]
+        });
+
+        var map = new L.Map('map', {
+            crs: crs
+        }).setView([59.91029331000732, 10.763368274126549], 14);
+
+        var basemap = L.tileLayer('http://services.geodataonline.no/arcgis/rest/services/Geocache_UTM33_EUREF89/GeocacheBasis/MapServer/tile/{z}/{y}/{x}?token=' + token, {
+            attribution: 'Kartverket, Geodata AS'
+        }).addTo(map);     
+
+        var dynamic = new L.AgsDynamicLayer('http://services2.geodataonline.no/arcgis/rest/services/Geomap_UTM33_EUREF89/GeomapEiendom/MapServer',
+        {
+            maxZoom: 19,
+            attribution: "Geodata AS",
+            opacity: 1,
+            layers: 'show:0,1,2',
+            token: token
+        });
+        map.addLayer(dynamic);
+
+    </script>
+</body>
+</html>
